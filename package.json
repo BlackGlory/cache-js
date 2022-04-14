@@ -10,7 +10,8 @@
   "main": "lib/es2018/index.js",
   "types": "lib/es2018/index.d.ts",
   "browser": {
-    "./lib/rpc-client.js": "./lib/rpc-client.browser.js"
+    "./lib/es2015/utils/rpc-client.js": "./lib/es2015/utils/rpc-client.browser.js",
+    "./lib/es2018/utils/rpc-client.js": "./lib/es2018/utils/rpc-client.browser.js"
   },
   "repository": "git@github.com:BlackGlory/cache-js.git",
   "author": "BlackGlory <woshenmedoubuzhidao@blackglory.me>",
@@ -33,13 +34,14 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "run-s prepare lint",
+      "pre-commit": "run-s prepare lint build bundle",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
   "devDependencies": {
     "@commitlint/cli": "^16.2.3",
     "@commitlint/config-conventional": "^16.2.1",
+    "@rollup/plugin-alias": "^3.1.9",
     "@rollup/plugin-commonjs": "^21.0.3",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.2.0",

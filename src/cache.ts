@@ -1,4 +1,4 @@
-import { createRPCClient } from './rpc-client'
+import { createRPCClient } from '@utils/rpc-client'
 import { ClientProxy, BatchClient, BatchClientProxy } from 'delight-rpc'
 import { IAPI, IStats } from './contract'
 import { isPositiveInfinity, isNull } from '@blackglory/prelude'
