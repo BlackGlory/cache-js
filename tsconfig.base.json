@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES2019"
+    "target": "ES2018"
   , "module": "CommonJS"
   , "strict": true
   , "noUnusedLocals": true
@@ -13,15 +13,5 @@
     , "@utils/*": ["src/utils/*"]
     , "@test/*": ["__tests__/*"]
     }
-  , "plugins" : [
-      {
-        "transform": "typescript-transform-paths"
-      , "exclude" : ["**/node_modules/**"]
-      }
-    , {
-        "transform": "typescript-transform-paths", "afterDeclarations": true
-      , "exclude" : ["**/node_modules/**"]
-      }
-    ]
   }
 }

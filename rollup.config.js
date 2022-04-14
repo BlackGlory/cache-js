@@ -24,7 +24,7 @@ function createOptions({ directory, target }) {
   const commonPlugins = [
     alias({
       entries: [
-        { find: './utils/rpc-client', replacement: './utils/rpc-client.browser' }
+        { find: '@utils/rpc-client', replacement: '@utils/rpc-client.browser' }
       ]
     })
   , replace({
