@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "ES2019"
+  , "module": "CommonJS"
+  , "strict": true
+  , "noUnusedLocals": true
+  , "noUnusedParameters": false
+  , "experimentalDecorators": true
+  , "emitDecoratorMetadata": false
+  , "baseUrl": "."
+  , "paths": {
+      "@src/*": ["src/*"]
+    , "@test/*": ["__tests__/*"]
+    , "extra-request/transformers/*": ["node_modules/extra-request/lib/es2018/transformers/*"]
+    }
+  , "plugins" : [
+      {
+        "transform": "typescript-transform-paths"
+      , "exclude" : ["**/node_modules/**"]
+      }
+    , {
+        "transform": "typescript-transform-paths", "afterDeclarations": true
+      , "exclude" : ["**/node_modules/**"]
+      }
+    ]
+  }
+}
