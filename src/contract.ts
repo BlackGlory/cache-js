@@ -30,3 +30,5 @@ export interface IMetadata {
   timeToLive: number | null
   timeBeforeDeletion: number | null
 }
+
+export const expectedVersion = '0.1.1'
