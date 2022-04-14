@@ -1,5 +1,5 @@
 import { createRPCClient } from './rpc-client'
-import { ClientProxy } from 'delight-rpc'
+import { ClientProxy, BatchClient, BatchClientProxy } from 'delight-rpc'
 import { IAPI, IStats } from './contract'
 import { isPositiveInfinity, isNull } from '@blackglory/prelude'
 import { timeoutSignal, withAbortSignal } from 'extra-abort'
@@ -17,17 +17,21 @@ export interface ICacheClientOptions {
 }
 
 export class CacheClient {
-  private client: ClientProxy<IAPI>
-  private closeClient: () => void
+  constructor(
+    private client: ClientProxy<IAPI>
+  , private batchClient: BatchClient
+  , private batchProxy: BatchClientProxy<IAPI, unknown>
+  , private closeClients: () => void
+  , private timeout?: number
+  ) {}
 
-  constructor(private options: ICacheClientOptions) {
-    const { client, close } = createRPCClient(options.server)
-    this.client = client
-    this.closeClient = close
+  static async create(options: ICacheClientOptions): Promise<CacheClient> {
+    const { client, batchClient, proxy, close } = await createRPCClient(options.server)
+    return new CacheClient(client, batchClient, proxy, close, options.timeout)
   }
 
   close(): void {
-    this.closeClient()
+    this.closeClients()
   }
 
   async has(namespace: string, key: string, timeout?: number): Promise<boolean> {
@@ -38,31 +42,45 @@ export class CacheClient {
   }
 
   async get(namespace: string, key: string, timeout?: number): Promise<string | null> {
-    const value = await this.withTimeout(
+    return await this.withTimeout(
       () => this.client.get(namespace, key)
     , timeout
     )
-    return value
+  }
+
+  async bulkGet(
+    namespace: string
+  , keys: string[]
+  , timeout?: number
+  ): Promise<Array<string | null>> {
+    return await this.withTimeout(async () => {
+      const results = await this.batchClient.parallel(
+        ...keys.map(key => this.batchProxy.get(namespace, key))
+      )
+      return results.map(result => result.unwrap())
+    }, timeout)
   }
 
   async getWithMetadata(namespace: string, key: string, timeout?: number): Promise<{
     value: string
     metadata: IMetadata 
   } | null> {
-    const result = await this.withTimeout(
-      () => this.client.getWithMetadata(namespace, key)
+    return await this.withTimeout(
+      async () => {
+        const result = await this.client.getWithMetadata(namespace, key)
+        if (isNull(result)) return null
+
+        return {
+          value: result.value
+        , metadata: {
+            updatedAt: result.metadata.updatedAt
+          , timeToLive: result.metadata.timeToLive ?? Infinity
+          , timeBeforeDeletion: result.metadata.timeBeforeDeletion ?? Infinity
+          }
+        }
+      }
     , timeout
     )
-    if (isNull(result)) return null
-
-    return {
-      value: result.value
-    , metadata: {
-        updatedAt: result.metadata.updatedAt
-      , timeToLive: result.metadata.timeToLive ?? Infinity
-      , timeBeforeDeletion: result.metadata.timeBeforeDeletion ?? Infinity
-      }
-    }
   }
 
   async set(
@@ -126,7 +144,7 @@ export class CacheClient {
 
   private async withTimeout<T>(
     fn: () => PromiseLike<T>
-  , timeout: number | undefined = this.options.timeout
+  , timeout: number | undefined = this.timeout
   ): Promise<T> {
     if (timeout) {
       return await withAbortSignal(timeoutSignal(timeout), fn)

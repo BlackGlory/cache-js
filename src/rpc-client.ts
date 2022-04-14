@@ -1,12 +1,27 @@
 import { IAPI } from './contract'
-import { ClientProxy } from 'delight-rpc'
-import { createClient } from '@delight-rpc/websocket'
+import { ClientProxy, BatchClient, BatchClientProxy, createBatchProxy } from 'delight-rpc'
+import { createClient, createBatchClient } from '@delight-rpc/websocket'
 import { WebSocket } from 'ws'
+import { waitForEventEmitter } from '@blackglory/wait-for'
 
-export function createRPCClient(url: string): {
+export async function createRPCClient(url: string): Promise<{
   client: ClientProxy<IAPI>
+  batchClient: BatchClient<IAPI>
+  proxy: BatchClientProxy<IAPI, unknown>
   close: () => void
-} {
-  const [client, close] = createClient<IAPI>(new WebSocket(url))
-  return { client, close }
+}> {
+  const ws = new WebSocket(url)
+  await waitForEventEmitter(ws, 'open')
+  const [client, closeClient] = createClient<IAPI>(ws)
+  const [batchClient, closeBatchClient] = createBatchClient(new WebSocket(url))
+  const proxy = createBatchProxy<IAPI>()
+  return {
+    client
+  , batchClient
+  , proxy
+  , close: () => {
+      closeClient()
+      closeBatchClient()
+    }
+  }
 }

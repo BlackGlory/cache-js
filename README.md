@@ -21,11 +21,16 @@ interface ICacheClientOptions {
 }
 
 class CacheClient {
-    constructor(options: ICacheClientOptions)
+  static create(options: ICacheClientOptions): Promise<CacheClient>
 
     close(): void
     has(namespace: string, key: string, timeout?: number): Promise<boolean>
     get(namespace: string, key: string, timeout?: number): Promise<string | null>
+    bulkGet(
+      namespace: string
+    , keys: string[]
+    , timeout?: number
+    ): Promise<Array<string | null>>
     getWithMetadata(namespace: string, key: string, timeout?: number): Promise<{
         value: string
         metadata: IMetadata
