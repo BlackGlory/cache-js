@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.3](https://github.com/BlackGlory/cache-js/compare/v0.1.2...v0.1.3) (2022-04-15)
+
+
+### Bug Fixes
+
+* make constructor private ([8adf498](https://github.com/BlackGlory/cache-js/commit/8adf498eccaeb714f696e7dc69965f512be4e9bf))
+
 ### [0.1.2](https://github.com/BlackGlory/cache-js/compare/v0.1.1...v0.1.2) (2022-04-14)
 
 
