@@ -17,7 +17,7 @@ export interface ICacheClientOptions {
 }
 
 export class CacheClient {
-  constructor(
+  private constructor(
     private client: ClientProxy<IAPI>
   , private batchClient: BatchClient
   , private batchProxy: BatchClientProxy<IAPI, unknown>
