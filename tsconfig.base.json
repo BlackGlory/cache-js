@@ -5,8 +5,6 @@
   , "strict": true
   , "noUnusedLocals": true
   , "noUnusedParameters": false
-  , "experimentalDecorators": true
-  , "emitDecoratorMetadata": false
   , "baseUrl": "."
   , "paths": {
       "@src/*": ["src/*"]
