@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.2.0](https://github.com/BlackGlory/cache-js/compare/v0.1.3...v0.2.0) (2022-05-26)
+
+
+### ⚠ BREAKING CHANGES
+
+* upgrade to cache 0.2.0
+
+### Features
+
+* upgrade to cache 0.2.0 ([3bb85e0](https://github.com/BlackGlory/cache-js/commit/3bb85e047a1be57bab3323b61f3e32e869599813))
+
 ### [0.1.3](https://github.com/BlackGlory/cache-js/compare/v0.1.2...v0.1.3) (2022-04-15)
 
 
