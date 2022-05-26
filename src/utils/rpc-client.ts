@@ -12,8 +12,8 @@ export async function createRPCClient(url: string): Promise<{
 }> {
   const ws = new WebSocket(url)
   await waitForEventEmitter(ws, 'open')
-  const [client, closeClient] = createClient<IAPI>(ws, undefined, expectedVersion)
-  const [batchClient, closeBatchClient] = createBatchClient(new WebSocket(url), expectedVersion)
+  const [client, closeClient] = createClient<IAPI>(ws, { expectedVersion })
+  const [batchClient, closeBatchClient] = createBatchClient(new WebSocket(url), { expectedVersion })
   const proxy = createBatchProxy<IAPI>()
   return {
     client
