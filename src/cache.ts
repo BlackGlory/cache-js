@@ -37,14 +37,14 @@ export class CacheClient {
   async has(namespace: string, key: string, timeout?: number): Promise<boolean> {
     return await this.withTimeout(
       () => this.client.has(namespace, key)
-    , timeout
+    , timeout ?? this.timeout
     )
   }
 
   async get(namespace: string, key: string, timeout?: number): Promise<string | null> {
     return await this.withTimeout(
       () => this.client.get(namespace, key)
-    , timeout
+    , timeout ?? this.timeout
     )
   }
 
@@ -53,12 +53,15 @@ export class CacheClient {
   , keys: string[]
   , timeout?: number
   ): Promise<Array<string | null>> {
-    return await this.withTimeout(async () => {
-      const results = await this.batchClient.parallel(
-        ...keys.map(key => this.batchProxy.get(namespace, key))
-      )
-      return results.map(result => result.unwrap())
-    }, timeout)
+    return await this.withTimeout(
+      async () => {
+        const results = await this.batchClient.parallel(
+          ...keys.map(key => this.batchProxy.get(namespace, key))
+        )
+        return results.map(result => result.unwrap())
+      }
+    , timeout ?? this.timeout
+    )
   }
 
   async getWithMetadata(namespace: string, key: string, timeout?: number): Promise<{
@@ -79,7 +82,7 @@ export class CacheClient {
           }
         }
       }
-    , timeout
+    , timeout ?? this.timeout
     )
   }
 
@@ -103,42 +106,42 @@ export class CacheClient {
         ? null
         : timeBeforeDeletion
       )
-    , timeout
+    , timeout ?? this.timeout
     )
   }
 
   async del(namespace: string, key: string, timeout?: number): Promise<void> {
     await this.withTimeout(
       () => this.client.del(namespace, key)
-    , timeout
+    , timeout ?? this.timeout
     )
   }
 
   async clear(namespace: string, timeout?: number): Promise<void> {
     await this.withTimeout(
       () => this.client.clear(namespace)
-    , timeout
+    , timeout ?? this.timeout
     )
   }
 
   async getAllItemKeys(namespace: string, timeout?: number): Promise<string[]> {
     return await this.withTimeout(
       () => this.client.getAllItemKeys(namespace)
-    , timeout
+    , timeout ?? this.timeout
     )
   }
 
   async getAllNamespaces(timeout?: number): Promise<string[]> {
     return await this.withTimeout(
       () => this.client.getAllNamespaces()
-    , timeout
+    , timeout ?? this.timeout
     )
   }
 
   async stats(namespace: string, timeout?: number): Promise<IStats> {
     return await this.withTimeout(
       () => this.client.stats(namespace)
-    , timeout
+    , timeout ?? this.timeout
     )
   }
 
@@ -148,7 +151,8 @@ export class CacheClient {
   ): Promise<T> {
     if (timeout) {
       return await withAbortSignal(timeoutSignal(timeout), fn)
+    } else {
+      return await fn()
     }
-    return await fn()
   }
 }
