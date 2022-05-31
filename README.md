@@ -23,7 +23,7 @@ interface ICacheClientOptions {
 class CacheClient {
   static create(options: ICacheClientOptions): Promise<CacheClient>
 
-  close(): void
+  close(): Promise<void>
   has(namespace: string, key: string, timeout?: number): Promise<boolean>
   get(namespace: string, key: string, timeout?: number): Promise<string | null>
   bulkGet(

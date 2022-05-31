@@ -21,7 +21,7 @@ export class CacheClient {
     private client: ClientProxy<IAPI>
   , private batchClient: BatchClient
   , private batchProxy: BatchClientProxy<IAPI, unknown>
-  , private closeClients: () => void
+  , private closeClients: () => Promise<void>
   , private timeout?: number
   ) {}
 
@@ -30,8 +30,8 @@ export class CacheClient {
     return new CacheClient(client, batchClient, proxy, close, options.timeout)
   }
 
-  close(): void {
-    this.closeClients()
+  async close(): Promise<void> {
+    await this.closeClients()
   }
 
   async has(namespace: string, key: string, timeout?: number): Promise<boolean> {

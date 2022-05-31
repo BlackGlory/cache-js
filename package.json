@@ -69,11 +69,12 @@
   },
   "dependencies": {
     "@blackglory/prelude": "^0.1.1",
-    "@blackglory/wait-for": "^0.4.4",
-    "@delight-rpc/websocket": "^0.5.1",
-    "@delight-rpc/websocket-browser": "^0.4.1",
+    "@delight-rpc/extra-native-websocket": "^0.2.2",
+    "@delight-rpc/extra-websocket": "^0.2.1",
     "delight-rpc": "^4.1.0",
     "extra-abort": "^0.1.2",
+    "extra-native-websocket": "^0.2.0",
+    "extra-websocket": "^0.2.1",
     "ws": "^8.7.0"
   }
 }
