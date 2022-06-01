@@ -18,7 +18,7 @@
   "license": "MIT",
   "scripts": {
     "prepare": "ts-patch install -s",
-    "lint": "eslint --ext .js,.jsx,.ts,.tsx --quiet src",
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx --quiet src __tests__",
     "test": "jest --runInBand --no-cache --config jest.config.js",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
     "test:coverage": "jest --coverage --config jest.config.js",
@@ -30,6 +30,11 @@
     "build:es2015": "tsc --project tsconfig.build.json --module commonjs --target es2015 --outDir lib/es2015",
     "build:es2018": "tsc --project tsconfig.build.json --module commonjs --target es2018 --outDir lib/es2018",
     "bundle": "rollup --config rollup.config.js",
+    "docker:test": "run-s docker:test:clean docker:test:build docker:test:run docker:test:clean",
+    "docker:coverage": "run-s docker:test:clean docker:test:build docker:test:coverage docker:test:clean",
+    "docker:test:build": "docker-compose --project-name cache-js --file docker-compose.test.yml build",
+    "docker:test:run": "docker-compose --project-name cache-js --file docker-compose.test.yml run --rm test",
+    "docker:test:clean": "docker-compose --project-name cache-js --file docker-compose.test.yml down",
     "release": "standard-version"
   },
   "husky": {
