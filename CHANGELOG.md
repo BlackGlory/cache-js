@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.3.0](https://github.com/BlackGlory/cache-js/compare/v0.2.0...v0.3.0) (2022-06-01)
+
+
+### ⚠ BREAKING CHANGES
+
+* The signature of `close` method changed
+
+### Bug Fixes
+
+* timeout ([4b0e148](https://github.com/BlackGlory/cache-js/commit/4b0e148fe43f8ec05e7d1f423039c3cd629f2074))
+
+
+* use extra-websocket, extra-native-websocket ([d5a65ff](https://github.com/BlackGlory/cache-js/commit/d5a65fff2edbef6b17b778e1d66ad037d06aa03b))
+
 ## [0.2.0](https://github.com/BlackGlory/cache-js/compare/v0.1.3...v0.2.0) (2022-05-26)
 
 
