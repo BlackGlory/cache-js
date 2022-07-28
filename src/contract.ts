@@ -10,7 +10,6 @@ export interface IAPI {
   , key: string
   , value: string
   , timeToLive: number | null /* ms */
-  , timeBeforeDeletion: number | null /* ms */
   ): Promise<null>
   del(namespace: string, key: string): Promise<null>
   clear(namespace: string): Promise<null>
@@ -28,7 +27,6 @@ export interface IStats {
 export interface IMetadata {
   updatedAt: number
   timeToLive: number | null
-  timeBeforeDeletion: number | null
 }
 
-export const expectedVersion = '0.2.0'
+export const expectedVersion = '0.3.0'

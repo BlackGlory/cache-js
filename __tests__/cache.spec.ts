@@ -7,7 +7,7 @@ describe('CacheClient', () => {
     const client = await CacheClient.create({ server })
 
     try {
-      await client.set('namespace', 'key', 'value', Infinity, 0)
+      await client.set('namespace', 'key', 'value', null)
       const result = await client.get('namespace', 'key')
 
       expect(result).toBe('value')

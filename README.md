@@ -11,8 +11,7 @@ yarn add @blackglory/cache-js
 ```ts
 interface IMetadata {
   updatedAt: number
-  timeToLive: number
-  timeBeforeDeletion: number
+  timeToLive: number | null
 }
 
 interface ICacheClientOptions {
@@ -27,8 +26,7 @@ class CacheClient {
     namespace: string
   , key: string
   , value: string
-  , timeToLive: number
-  , timeBeforeDeletion: number
+  , timeToLive: number | null
   , timeout?: number
   ): Promise<void>
 

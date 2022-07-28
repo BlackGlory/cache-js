@@ -1,14 +1,13 @@
 import { createRPCClient } from '@utils/rpc-client'
 import { ClientProxy, BatchClient, BatchClientProxy } from 'delight-rpc'
 import { IAPI, IStats } from './contract'
-import { isPositiveInfinity, isNull } from '@blackglory/prelude'
+import { isNull } from '@blackglory/prelude'
 import { timeoutSignal, withAbortSignal } from 'extra-abort'
 export { IStats } from './contract'
 
 export interface IMetadata {
   updatedAt: number
-  timeToLive: number
-  timeBeforeDeletion: number
+  timeToLive: number | null
 }
 
 export interface ICacheClientOptions {
@@ -66,7 +65,7 @@ export class CacheClient {
 
   async getWithMetadata(namespace: string, key: string, timeout?: number): Promise<{
     value: string
-    metadata: IMetadata 
+    metadata: IMetadata
   } | null> {
     return await this.withTimeout(
       async () => {
@@ -77,8 +76,7 @@ export class CacheClient {
           value: result.value
         , metadata: {
             updatedAt: result.metadata.updatedAt
-          , timeToLive: result.metadata.timeToLive ?? Infinity
-          , timeBeforeDeletion: result.metadata.timeBeforeDeletion ?? Infinity
+          , timeToLive: result.metadata.timeToLive
           }
         }
       }
@@ -90,8 +88,7 @@ export class CacheClient {
     namespace: string
   , key: string
   , value: string
-  , timeToLive: number
-  , timeBeforeDeletion: number
+  , timeToLive: number | null
   , timeout?: number
   ): Promise<void> {
     await this.withTimeout(
@@ -99,12 +96,7 @@ export class CacheClient {
         namespace
       , key
       , value
-      , isPositiveInfinity(timeToLive)
-        ? null
-        : timeToLive
-      , isPositiveInfinity(timeBeforeDeletion)
-        ? null
-        : timeBeforeDeletion
+      , timeToLive
       )
     , timeout ?? this.timeout
     )
