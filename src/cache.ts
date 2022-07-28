@@ -13,6 +13,7 @@ export interface IMetadata {
 export interface ICacheClientOptions {
   server: string
   timeout?: number
+  retryIntervalForReconnection?: number
 }
 
 export class CacheClient {
@@ -25,7 +26,9 @@ export class CacheClient {
   ) {}
 
   static async create(options: ICacheClientOptions): Promise<CacheClient> {
-    const { client, batchClient, proxy, close } = await createRPCClient(options.server)
+    const { client, batchClient, proxy, close } = await createRPCClient(
+      options.server
+    )
     return new CacheClient(client, batchClient, proxy, close, options.timeout)
   }
 

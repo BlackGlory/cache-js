@@ -4,14 +4,17 @@ import { createClient, createBatchClient } from '@delight-rpc/extra-websocket'
 import { WebSocket } from 'ws'
 import { ExtraWebSocket, autoReconnect } from 'extra-websocket'
 
-export async function createRPCClient(url: string): Promise<{
+export async function createRPCClient(
+  url: string
+, retryIntervalForReconnection?: number
+): Promise<{
   client: ClientProxy<IAPI>
   batchClient: BatchClient<IAPI>
   proxy: BatchClientProxy<IAPI, unknown>
   close: () => Promise<void>
 }> {
   const ws = new ExtraWebSocket(() => new WebSocket(url))
-  const cancelAutoReconnect = autoReconnect(ws)
+  const cancelAutoReconnect = autoReconnect(ws, retryIntervalForReconnection)
   await ws.connect()
 
   const [client, closeClient] = createClient<IAPI>(ws, { expectedVersion })

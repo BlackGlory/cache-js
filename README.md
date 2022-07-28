@@ -17,6 +17,7 @@ interface IMetadata {
 interface ICacheClientOptions {
   server: string
   timeout?: number
+  retryIntervalForReconnection?: number
 }
 
 class CacheClient {

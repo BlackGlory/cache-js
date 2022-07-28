@@ -3,14 +3,17 @@ import { ClientProxy, BatchClient, BatchClientProxy, createBatchProxy } from 'de
 import { createClient, createBatchClient } from '@delight-rpc/extra-native-websocket'
 import { ExtraNativeWebSocket, autoReconnect } from 'extra-native-websocket'
 
-export async function createRPCClient(url: string): Promise<{
+export async function createRPCClient(
+  url: string
+, retryIntervalForReconnection?: number
+): Promise<{
   client: ClientProxy<IAPI>
   batchClient: BatchClient<IAPI>
   proxy: BatchClientProxy<IAPI, unknown>
   close: () => Promise<void>
 }> {
   const ws = new ExtraNativeWebSocket(() => new WebSocket(url))
-  const cancelAutoReconnect = autoReconnect(ws)
+  const cancelAutoReconnect = autoReconnect(ws, retryIntervalForReconnection)
   await ws.connect()
 
   const [client, closeClient] = createClient<IAPI>(ws, { expectedVersion })
