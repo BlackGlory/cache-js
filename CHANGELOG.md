@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.4.0](https://github.com/BlackGlory/cache-js/compare/v0.3.1...v0.4.0) (2022-07-28)
+
+
+### ⚠ BREAKING CHANGES
+
+* It requires cache 0.3.0
+
+### Features
+
+* add retryIntervalForReconnection option ([211d9b8](https://github.com/BlackGlory/cache-js/commit/211d9b8c86d0f6819f760e4d4e821a5b4c34ddab))
+* upgrade ([63e6d0e](https://github.com/BlackGlory/cache-js/commit/63e6d0eabaf9308a728b624ef6b1e25fef4c32de))
+
 ### [0.3.1](https://github.com/BlackGlory/cache-js/compare/v0.3.0...v0.3.1) (2022-06-08)
 
 ## [0.3.0](https://github.com/BlackGlory/cache-js/compare/v0.2.0...v0.3.0) (2022-06-01)
