@@ -34,10 +34,6 @@ class CacheClient {
   has(namespace: string, key: string, timeout?: number): Promise<boolean>
 
   get(namespace: string, key: string, timeout?: number): Promise<string | null>
-  getWithMetadata(namespace: string, key: string, timeout?: number): Promise<{
-      value: string
-      metadata: IMetadata
-  } | null>
   bulkGet(
     namespace: string
   , keys: string[]

@@ -1,7 +1,6 @@
 import { createRPCClient } from '@utils/rpc-client'
 import { ClientProxy, BatchClient, BatchClientProxy } from 'delight-rpc'
 import { IAPI, IStats } from './contract'
-import { isNull } from '@blackglory/prelude'
 import { timeoutSignal, withAbortSignal } from 'extra-abort'
 export { IStats } from './contract'
 
@@ -61,27 +60,6 @@ export class CacheClient {
           ...keys.map(key => this.batchProxy.get(namespace, key))
         )
         return results.map(result => result.unwrap())
-      }
-    , timeout ?? this.timeout
-    )
-  }
-
-  async getWithMetadata(namespace: string, key: string, timeout?: number): Promise<{
-    value: string
-    metadata: IMetadata
-  } | null> {
-    return await this.withTimeout(
-      async () => {
-        const result = await this.client.getWithMetadata(namespace, key)
-        if (isNull(result)) return null
-
-        return {
-          value: result.value
-        , metadata: {
-            updatedAt: result.metadata.updatedAt
-          , timeToLive: result.metadata.timeToLive
-          }
-        }
       }
     , timeout ?? this.timeout
     )
