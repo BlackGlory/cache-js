@@ -1,9 +1,11 @@
 {
   "name": "@blackglory/cache-js",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "description": "",
   "keywords": [],
-  "files": ["lib"],
+  "files": [
+    "lib"
+  ],
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "browser": {
