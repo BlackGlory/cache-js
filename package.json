@@ -3,15 +3,11 @@
   "version": "0.4.2",
   "description": "",
   "keywords": [],
-  "files": [
-    "lib",
-    "dist"
-  ],
-  "main": "lib/es2018/index.js",
-  "types": "lib/es2018/index.d.ts",
+  "files": ["lib"],
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "browser": {
-    "./lib/es2015/utils/rpc-client.js": "./lib/es2015/utils/rpc-client.browser.js",
-    "./lib/es2018/utils/rpc-client.js": "./lib/es2018/utils/rpc-client.browser.js"
+    "./lib/utils/rpc-client.js": "./lib/utils/rpc-client.browser.js"
   },
   "repository": "git@github.com:BlackGlory/cache-js.git",
   "author": "BlackGlory <woshenmedoubuzhidao@blackglory.me>",
@@ -25,9 +21,7 @@
     "test:coverage": "jest --coverage --config jest.config.js",
     "prepublishOnly": "run-s prepare clean build",
     "clean": "rimraf lib",
-    "build": "run-p build:*",
-    "build:es2015": "tsc --project tsconfig.build.json --module commonjs --target es2015 --outDir lib/es2015",
-    "build:es2018": "tsc --project tsconfig.build.json --module commonjs --target es2018 --outDir lib/es2018",
+    "build": "tsc --project tsconfig.build.json --module commonjs --target es2018 --outDir lib",
     "docker:test": "run-s docker:test:clean docker:test:build docker:test:run docker:test:clean",
     "docker:coverage": "run-s docker:test:clean docker:test:build docker:test:coverage docker:test:clean",
     "docker:test:build": "docker-compose --project-name cache-js --file docker-compose.test.yml build",
