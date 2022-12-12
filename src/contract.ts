@@ -1,6 +1,10 @@
 export interface IAPI {
   has(namespace: string, key: string): Promise<boolean>
   get(namespace: string, key: string): Promise<string | null>
+  getWithMetadata(namespace: string, key: string): Promise<{
+    value: string
+    metadata: IMetadata
+  } | null>
   set(
     namespace: string
   , key: string
@@ -25,4 +29,4 @@ export interface IMetadata {
   timeToLive: number | null
 }
 
-export const expectedVersion = '0.4.0'
+export const expectedVersion = '0.5.0'
