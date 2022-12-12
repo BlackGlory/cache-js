@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.6.0](https://github.com/BlackGlory/cache-js/compare/v0.5.0...v0.6.0) (2022-12-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* - The minimal version of Node.js is 16
+- It requires Cache v0.5.0
+
+### Features
+
+* add `getWithMetadata` back ([d35c396](https://github.com/BlackGlory/cache-js/commit/d35c396891aa106ddbce1258ffbbd65ad20acda8))
+
 ## [0.5.0](https://github.com/BlackGlory/cache-js/compare/v0.4.2...v0.5.0) (2022-12-11)
 
 
