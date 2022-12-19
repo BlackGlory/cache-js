@@ -29,4 +29,4 @@ export interface IMetadata {
   timeToLive: number | null
 }
 
-export const expectedVersion = '0.5.0'
+export const expectedVersion = '^0.6.0'
