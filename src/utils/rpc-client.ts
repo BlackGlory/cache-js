@@ -1,4 +1,4 @@
-import { IAPI, expectedVersion } from '@src/contract'
+import { IAPI, expectedVersion } from '@src/contract.js'
 import { ClientProxy, BatchClient, BatchClientProxy, createBatchProxy } from 'delight-rpc'
 import { createClient, createBatchClient } from '@delight-rpc/extra-websocket'
 import { WebSocket } from 'ws'

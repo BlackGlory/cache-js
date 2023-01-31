@@ -1,9 +1,9 @@
-import { createRPCClient } from '@utils/rpc-client'
+import { createRPCClient } from '@utils/rpc-client.js'
 import { ClientProxy, BatchClient, BatchClientProxy } from 'delight-rpc'
-import { IAPI, IStats } from './contract'
+import { IAPI, IStats } from './contract.js'
 import { timeoutSignal, withAbortSignal } from 'extra-abort'
 import { isNull } from '@blackglory/prelude'
-export { IStats } from './contract'
+export { IStats } from './contract.js'
 
 export interface IMetadata {
   updatedAt: number
