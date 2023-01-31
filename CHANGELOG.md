@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.8.0](https://github.com/BlackGlory/cache-js/compare/v0.7.0...v0.8.0) (2023-01-31)
+
+
+### ⚠ BREAKING CHANGES
+
+* CommonJS => ESM
+
+* commonjs => esm ([2d297a3](https://github.com/BlackGlory/cache-js/commit/2d297a3a38b50c5cc2586d53527dcd98cd633350))
+
 ## [0.7.0](https://github.com/BlackGlory/cache-js/compare/v0.6.0...v0.7.0) (2022-12-19)
 
 
