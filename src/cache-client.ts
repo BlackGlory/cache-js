@@ -1,14 +1,9 @@
 import { createRPCClient } from '@utils/rpc-client.js'
 import { ClientProxy, BatchClient, BatchClientProxy } from 'delight-rpc'
-import { IAPI, IStats } from './contract.js'
+import { IAPI, IStats, IMetadata } from './contract.js'
 import { timeoutSignal, withAbortSignal } from 'extra-abort'
 import { isNull } from '@blackglory/prelude'
-export { IStats } from './contract.js'
-
-export interface IMetadata {
-  updatedAt: number
-  timeToLive: number | null
-}
+export { IStats, IMetadata } from './contract.js'
 
 export interface ICacheClientOptions {
   server: string

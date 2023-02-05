@@ -9,6 +9,11 @@ yarn add @blackglory/cache-js
 ## API
 ### CacheClient
 ```ts
+interface IStats {
+  namespace: string
+  items: number
+}
+
 interface IMetadata {
   updatedAt: number
   timeToLive: number | null
