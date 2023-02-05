@@ -632,9 +632,9 @@
     "@jridgewell/trace-mapping" "0.3.9"
 
 "@delight-rpc/extra-native-websocket@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@delight-rpc/extra-native-websocket/-/extra-native-websocket-0.4.0.tgz#acdefa21dbde1ee8fb3d5757af9eec776daf6c18"
-  integrity sha512-noZR7aFhASLvb8U88g4I5yYKtp7Z6OyDjlLGO469kOYkSTtuPSuqBortO1YdWxzlObEa2aZyBaCIybnI/R0reA==
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@delight-rpc/extra-native-websocket/-/extra-native-websocket-0.4.1.tgz#127ce9527a3bce2d30e204410a0c688e3ce4c0cc"
+  integrity sha512-u+zMweOcfSgRLYeeU7AWAhN+Y54ylsibqPXdcXOv/BhgXvEw1qoXXRaeBFFZfULExnSQB+zTnhf6F51SQ3Nq9g==
   dependencies:
     "@blackglory/errors" "^2.3.0"
     "@blackglory/prelude" "^0.1.8"
@@ -644,9 +644,9 @@
     return-style "^1.0.0"
 
 "@delight-rpc/extra-websocket@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@delight-rpc/extra-websocket/-/extra-websocket-0.4.0.tgz#202fd95975c93be9d2ef3aa4587827b08fb48306"
-  integrity sha512-tUI7QiChw0I4n029sJAPLbsIBUzoeQa0oNPMueD/BjE5M+OFXtilrLZkXu0UfkNQS+7cDQgXE6K2PrByf4nAsA==
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@delight-rpc/extra-websocket/-/extra-websocket-0.4.1.tgz#607a3f283c7feb9eb10dbe6daed7842c5b3db7eb"
+  integrity sha512-jXziz33Q32z9oLW0SlthG7FcXEUaOxbD9qWm7yc7UKDiXVQHFlTN5N1rZT5Wp/7en+AP8NVxKfAkwzTMktFAGA==
   dependencies:
     "@blackglory/errors" "^2.3.0"
     "@blackglory/prelude" "^0.1.8"
