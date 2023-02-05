@@ -29,30 +29,30 @@ class CacheClient {
   getAllNamespaces(timeout?: number): Promise<string[]>
   getAllItemKeys(namespace: string, timeout?: number): Promise<string[]>
 
-  hasItem(namespace: string, key: string, timeout?: number): Promise<boolean>
+  hasItem(namespace: string, itemKey: string, timeout?: number): Promise<boolean>
 
-  getItem(namespace: string, key: string, timeout?: number): Promise<string | null> 
+  getItem(namespace: string, itemKey: string, timeout?: number): Promise<string | null> 
 
-  getItemWithMetadata(namespace: string, key: string, timeout?: number): Promise<{
+  getItemWithMetadata(namespace: string, itemKey: string, timeout?: number): Promise<{
     value: string
     metadata: IMetadata
   } | null>
 
   getItems(
     namespace: string
-  , keys: string[]
+  , itemKeys: string[]
   , timeout?: number
   ): Promise<Array<string | null>>
 
   setItem(
     namespace: string
-  , key: string
-  , value: string
+  , itemKey: string
+  , itemValue: string
   , timeToLive: number | null
   , timeout?: number
   ): Promise<void>
 
-  removeItem(namespace: string, key: string, timeout?: number): Promise<void>
+  removeItem(namespace: string, itemKey: string, timeout?: number): Promise<void>
 
   clearItemsByNamespace(namespace: string, timeout?: number): Promise<void>
 }

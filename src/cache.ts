@@ -55,27 +55,31 @@ export class CacheClient {
     await this.closeClients()
   }
 
-  async hasItem(namespace: string, key: string, timeout?: number): Promise<boolean> {
+  async hasItem(namespace: string, itemKey: string, timeout?: number): Promise<boolean> {
     return await this.withTimeout(
-      () => this.client.hasItem(namespace, key)
+      () => this.client.hasItem(namespace, itemKey)
     , timeout ?? this.timeout
     )
   }
 
-  async getItem(namespace: string, key: string, timeout?: number): Promise<string | null> {
+  async getItem(
+    namespace: string
+  , itemKey: string
+  , timeout?: number
+  ): Promise<string | null> {
     return await this.withTimeout(
-      () => this.client.getItem(namespace, key)
+      () => this.client.getItem(namespace, itemKey)
     , timeout ?? this.timeout
     )
   }
 
-  async getItemWithMetadata(namespace: string, key: string, timeout?: number): Promise<{
+  async getItemWithMetadata(namespace: string, itemKey: string, timeout?: number): Promise<{
     value: string
     metadata: IMetadata
   } | null> {
     return await this.withTimeout(
       async () => {
-        const result = await this.client.getItemWithMetadata(namespace, key)
+        const result = await this.client.getItemWithMetadata(namespace, itemKey)
         if (isNull(result)) return null
 
         return {
@@ -92,13 +96,13 @@ export class CacheClient {
 
   async getItems(
     namespace: string
-  , keys: string[]
+  , itemKeys: string[]
   , timeout?: number
   ): Promise<Array<string | null>> {
     return await this.withTimeout(
       async () => {
         const results = await this.batchClient.parallel(
-          ...keys.map(key => this.batchProxy.getItem(namespace, key))
+          ...itemKeys.map(key => this.batchProxy.getItem(namespace, key))
         )
         return results.map(result => result.unwrap())
       }
@@ -108,25 +112,25 @@ export class CacheClient {
 
   async setItem(
     namespace: string
-  , key: string
-  , value: string
+  , itemKey: string
+  , itemValue: string
   , timeToLive: number | null
   , timeout?: number
   ): Promise<void> {
     await this.withTimeout(
       () => this.client.setItem(
         namespace
-      , key
-      , value
+      , itemKey
+      , itemValue
       , timeToLive
       )
     , timeout ?? this.timeout
     )
   }
 
-  async removeItem(namespace: string, key: string, timeout?: number): Promise<void> {
+  async removeItem(namespace: string, itemKey: string, timeout?: number): Promise<void> {
     await this.withTimeout(
-      () => this.client.removeItem(namespace, key)
+      () => this.client.removeItem(namespace, itemKey)
     , timeout ?? this.timeout
     )
   }
