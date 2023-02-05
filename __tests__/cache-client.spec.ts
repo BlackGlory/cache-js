@@ -1,4 +1,4 @@
-import { CacheClient } from '@src/cache.js'
+import { CacheClient } from '@src/cache-client.js'
 
 const server = 'ws://cache:8080'
 
