@@ -12,6 +12,19 @@ export interface ICacheClientOptions {
 }
 
 export class CacheClient {
+  static async create(options: ICacheClientOptions): Promise<CacheClient> {
+    const { client, batchClient, proxy, close } = await createRPCClient(options.server)
+    return new CacheClient(client, batchClient, proxy, close, options.timeout)
+  }
+
+  private constructor(
+    private client: ClientProxy<IAPI>
+  , private batchClient: BatchClient
+  , private batchProxy: BatchClientProxy<IAPI, unknown>
+  , private closeClients: () => Promise<void>
+  , private timeout?: number
+  ) {}
+
   async stats(namespace: string, timeout?: number): Promise<IStats> {
     return await this.withTimeout(
       () => this.client.stats(namespace)
@@ -31,19 +44,6 @@ export class CacheClient {
       () => this.client.getAllItemKeys(namespace)
     , timeout ?? this.timeout
     )
-  }
-
-  private constructor(
-    private client: ClientProxy<IAPI>
-  , private batchClient: BatchClient
-  , private batchProxy: BatchClientProxy<IAPI, unknown>
-  , private closeClients: () => Promise<void>
-  , private timeout?: number
-  ) {}
-
-  static async create(options: ICacheClientOptions): Promise<CacheClient> {
-    const { client, batchClient, proxy, close } = await createRPCClient(options.server)
-    return new CacheClient(client, batchClient, proxy, close, options.timeout)
   }
 
   async close(): Promise<void> {
