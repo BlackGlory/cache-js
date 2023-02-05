@@ -24,6 +24,10 @@ export class CacheClient {
   , private timeout?: number
   ) {}
 
+  async close(): Promise<void> {
+    await this.closeClients()
+  }
+
   async stats(namespace: string, timeout?: number): Promise<IStats> {
     return await this.withTimeout(
       () => this.client.stats(namespace)
@@ -43,10 +47,6 @@ export class CacheClient {
       () => this.client.getAllItemKeys(namespace)
     , timeout ?? this.timeout
     )
-  }
-
-  async close(): Promise<void> {
-    await this.closeClients()
   }
 
   async hasItem(namespace: string, itemKey: string, timeout?: number): Promise<boolean> {
