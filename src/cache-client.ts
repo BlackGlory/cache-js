@@ -2,7 +2,6 @@ import { createRPCClient } from '@utils/rpc-client.js'
 import { ClientProxy, BatchClient, BatchClientProxy } from 'delight-rpc'
 import { IAPI, IStats, IMetadata } from './contract.js'
 import { timeoutSignal, withAbortSignal } from 'extra-abort'
-import { isNull } from '@blackglory/prelude'
 export { IStats, IMetadata } from './contract.js'
 
 export interface ICacheClientOptions {
@@ -73,18 +72,7 @@ export class CacheClient {
     metadata: IMetadata
   } | null> {
     return await this.withTimeout(
-      async () => {
-        const result = await this.client.getItemWithMetadata(namespace, itemKey)
-        if (isNull(result)) return null
-
-        return {
-          value: result.value
-        , metadata: {
-            updatedAt: result.metadata.updatedAt
-          , timeToLive: result.metadata.timeToLive
-          }
-        }
-      }
+      () => this.client.getItemWithMetadata(namespace, itemKey)
     , timeout ?? this.timeout
     )
   }
