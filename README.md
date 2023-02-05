@@ -23,7 +23,28 @@ interface ICacheClientOptions {
 class CacheClient {
   static create(options: ICacheClientOptions): Promise<CacheClient>
 
-  set(
+  close(): Promise<void>
+
+  stats(namespace: string, timeout?: number): Promise<IStats>
+  getAllNamespaces(timeout?: number): Promise<string[]>
+  getAllItemKeys(namespace: string, timeout?: number): Promise<string[]>
+
+  hasItem(namespace: string, key: string, timeout?: number): Promise<boolean>
+
+  getItem(namespace: string, key: string, timeout?: number): Promise<string | null> 
+
+  getItemWithMetadata(namespace: string, key: string, timeout?: number): Promise<{
+    value: string
+    metadata: IMetadata
+  } | null>
+
+  getItems(
+    namespace: string
+  , keys: string[]
+  , timeout?: number
+  ): Promise<Array<string | null>>
+
+  setItem(
     namespace: string
   , key: string
   , value: string
@@ -31,23 +52,8 @@ class CacheClient {
   , timeout?: number
   ): Promise<void>
 
-  has(namespace: string, key: string, timeout?: number): Promise<boolean>
+  removeItem(namespace: string, key: string, timeout?: number): Promise<void>
 
-  get(namespace: string, key: string, timeout?: number): Promise<string | null>
-  bulkGet(
-    namespace: string
-  , keys: string[]
-  , timeout?: number
-  ): Promise<Array<string | null>>
-
-  del(namespace: string, key: string, timeout?: number): Promise<void>
-  clear(namespace: string, timeout?: number): Promise<void>
-
-  getAllItemKeys(namespace: string, timeout?: number): Promise<string[]>
-  getAllNamespaces(timeout?: number): Promise<string[]>
-
-  stats(namespace: string, timeout?: number): Promise<IStats>
-
-  close(): Promise<void>
+  clearItemsByNamespace(namespace: string, timeout?: number): Promise<void>
 }
 ```

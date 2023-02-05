@@ -13,4 +13,4 @@ services:
     command: test
 
   cache:
-    image: 'blackglory/cache:0.6.0'
+    image: 'blackglory/cache:0.8.0'
