@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.10.1](https://github.com/BlackGlory/cache-js/compare/v0.10.0...v0.10.1) (2023-03-28)
+
+
+### Bug Fixes
+
+* retryIntervalForReconnection ([d28d69f](https://github.com/BlackGlory/cache-js/commit/d28d69f524fb3ea6f119a6c4514c38d1a56f046c))
+
 ## [0.10.0](https://github.com/BlackGlory/cache-js/compare/v0.9.2...v0.10.0) (2023-03-28)
 
 
