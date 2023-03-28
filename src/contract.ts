@@ -1,32 +1,34 @@
-export const expectedVersion = '^0.8.0'
+import { JSONValue } from '@blackglory/prelude'
 
-export interface IStats {
-  namespace: string
+export const expectedVersion = '^0.9.0'
+
+export interface INamespaceStats {
   items: number
 }
 
-export interface IMetadata {
+export interface IItemMetadata {
   updatedAt: number
   timeToLive: number | null
 }
 
 export interface IAPI {
-  stats(namespace: string): IStats
   getAllNamespaces(): string[]
   getAllItemKeys(namespace: string): string[]
 
+  getNamespaceStats(namespace: string): INamespaceStats
+
   hasItem(namespace: string, itemKey: string): boolean
 
-  getItem(namespace: string, itemKey: string): string | null
-  getItemWithMetadata(namespace: string, itemKey: string): {
-    value: string
-    metadata: IMetadata
+  getItem(namespace: string, itemKey: string): {
+    value: JSONValue
+    metadata: IItemMetadata
   } | null
+  getItemValue(namespace: string, itemKey: string): JSONValue | null
 
   setItem(
     namespace: string
   , itemKey: string
-  , itemValue: string
+  , itemValue: JSONValue
   , timeToLive: number | null /* ms */
   ): null
 

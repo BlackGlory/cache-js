@@ -1,8 +1,9 @@
 import { createRPCClient } from '@utils/rpc-client.js'
 import { ClientProxy, BatchClient, BatchClientProxy } from 'delight-rpc'
-import { IAPI, IStats, IMetadata } from './contract.js'
+import { IAPI, INamespaceStats, IItemMetadata } from './contract.js'
 import { timeoutSignal, withAbortSignal } from 'extra-abort'
-export { IStats, IMetadata } from './contract.js'
+import { JSONValue } from '@blackglory/prelude'
+export { INamespaceStats, IItemMetadata } from './contract.js'
 
 export interface ICacheClientOptions {
   server: string
@@ -28,9 +29,12 @@ export class CacheClient {
     await this.closeClients()
   }
 
-  async stats(namespace: string, timeout?: number): Promise<IStats> {
+  async getNamespaceStats(
+    namespace: string
+  , timeout?: number
+  ): Promise<INamespaceStats> {
     return await this.withTimeout(
-      () => this.client.stats(namespace)
+      () => this.client.getNamespaceStats(namespace)
     , timeout ?? this.timeout
     )
   }
@@ -49,7 +53,11 @@ export class CacheClient {
     )
   }
 
-  async hasItem(namespace: string, itemKey: string, timeout?: number): Promise<boolean> {
+  async hasItem(
+    namespace: string
+  , itemKey: string
+  , timeout?: number
+  ): Promise<boolean> {
     return await this.withTimeout(
       () => this.client.hasItem(namespace, itemKey)
     , timeout ?? this.timeout
@@ -60,32 +68,38 @@ export class CacheClient {
     namespace: string
   , itemKey: string
   , timeout?: number
-  ): Promise<string | null> {
+  ): Promise<
+    {
+      value: JSONValue
+      metadata: IItemMetadata
+    } | null
+  > {
     return await this.withTimeout(
       () => this.client.getItem(namespace, itemKey)
     , timeout ?? this.timeout
     )
   }
 
-  async getItemWithMetadata(namespace: string, itemKey: string, timeout?: number): Promise<{
-    value: string
-    metadata: IMetadata
-  } | null> {
+  async getItemValue(
+    namespace: string
+  , itemKey: string
+  , timeout?: number
+  ): Promise<JSONValue | null> {
     return await this.withTimeout(
-      () => this.client.getItemWithMetadata(namespace, itemKey)
+      () => this.client.getItemValue(namespace, itemKey)
     , timeout ?? this.timeout
     )
   }
 
-  async getItems(
+  async getItemValues(
     namespace: string
   , itemKeys: string[]
   , timeout?: number
-  ): Promise<Array<string | null>> {
+  ): Promise<Array<JSONValue | null>> {
     return await this.withTimeout(
       async () => {
         const results = await this.batchClient.parallel(
-          ...itemKeys.map(key => this.batchProxy.getItem(namespace, key))
+          ...itemKeys.map(key => this.batchProxy.getItemValue(namespace, key))
         )
         return results.map(result => result.unwrap())
       }
@@ -96,7 +110,7 @@ export class CacheClient {
   async setItem(
     namespace: string
   , itemKey: string
-  , itemValue: string
+  , itemValue: JSONValue
   , timeToLive: number | null
   , timeout?: number
   ): Promise<void> {
@@ -111,7 +125,11 @@ export class CacheClient {
     )
   }
 
-  async removeItem(namespace: string, itemKey: string, timeout?: number): Promise<void> {
+  async removeItem(
+    namespace: string
+  , itemKey: string
+  , timeout?: number
+  ): Promise<void> {
     await this.withTimeout(
       () => this.client.removeItem(namespace, itemKey)
     , timeout ?? this.timeout

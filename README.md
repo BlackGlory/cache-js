@@ -9,12 +9,11 @@ yarn add @blackglory/cache-js
 ## API
 ### CacheClient
 ```ts
-interface IStats {
-  namespace: string
+interface INamespaceStats {
   items: number
 }
 
-interface IMetadata {
+interface IItemMetadata {
   updatedAt: number
   timeToLive: number | null
 }
@@ -30,29 +29,37 @@ class CacheClient {
 
   close(): Promise<void>
 
-  stats(namespace: string, timeout?: number): Promise<IStats>
+  getNamespaceStats(namespace: string, timeout?: number): Promise<INamespaceStats>
+
   getAllNamespaces(timeout?: number): Promise<string[]>
+
   getAllItemKeys(namespace: string, timeout?: number): Promise<string[]>
 
   hasItem(namespace: string, itemKey: string, timeout?: number): Promise<boolean>
 
-  getItem(namespace: string, itemKey: string, timeout?: number): Promise<string | null> 
+  getItem(namespace: string, itemKey: string, timeout?: number): Promise<
+    {
+      value: JSONValue
+      metadata: IItemMetadata
+    } | null
+  >
 
-  getItemWithMetadata(namespace: string, itemKey: string, timeout?: number): Promise<{
-    value: string
-    metadata: IMetadata
-  } | null>
+  getItemValue(
+    namespace: string
+  , itemKey: string
+  , timeout?: number
+  ): Promise<JSONValue | null>
 
-  getItems(
+  getItemValues(
     namespace: string
   , itemKeys: string[]
   , timeout?: number
-  ): Promise<Array<string | null>>
+  ): Promise<Array<JSONValue | null>>
 
   setItem(
     namespace: string
   , itemKey: string
-  , itemValue: string
+  , itemValue: JSONValue
   , timeToLive: number | null
   , timeout?: number
   ): Promise<void>
