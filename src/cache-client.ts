@@ -13,7 +13,10 @@ export interface ICacheClientOptions {
 
 export class CacheClient {
   static async create(options: ICacheClientOptions): Promise<CacheClient> {
-    const { client, batchClient, proxy, close } = await createRPCClient(options.server)
+    const { client, batchClient, proxy, close } = await createRPCClient(
+      options.server
+    , options.retryIntervalForReconnection
+    )
     return new CacheClient(client, batchClient, proxy, close, options.timeout)
   }
 
