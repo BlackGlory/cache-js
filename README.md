@@ -9,19 +9,24 @@ yarn add @blackglory/cache-js
 ## API
 ### CacheClient
 ```ts
+interface ICacheClientOptions {
+  server: string
+  timeout?: number
+  retryIntervalForReconnection?: number
+}
+
 interface INamespaceStats {
   items: number
+}
+
+interface IItem {
+  value: JSONValue
+  metadata: IItemMetadata
 }
 
 interface IItemMetadata {
   updatedAt: number
   timeToLive: number | null
-}
-
-interface ICacheClientOptions {
-  server: string
-  timeout?: number
-  retryIntervalForReconnection?: number
 }
 
 class CacheClient {
@@ -37,12 +42,11 @@ class CacheClient {
 
   hasItem(namespace: string, itemKey: string, timeout?: number): Promise<boolean>
 
-  getItem(namespace: string, itemKey: string, timeout?: number): Promise<
-    {
-      value: JSONValue
-      metadata: IItemMetadata
-    } | null
-  >
+  getItem(
+    namespace: string
+  , itemKey: string
+  , timeout?: number
+  ): Promise<IItem | null>
 
   getItemValue(
     namespace: string

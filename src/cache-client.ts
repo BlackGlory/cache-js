@@ -1,9 +1,9 @@
 import { createRPCClient } from '@utils/rpc-client.js'
 import { ClientProxy, BatchClient, BatchClientProxy } from 'delight-rpc'
-import { IAPI, INamespaceStats, IItemMetadata } from './contract.js'
+import { IAPI, INamespaceStats, IItem } from './contract.js'
 import { timeoutSignal, withAbortSignal } from 'extra-abort'
 import { JSONValue } from '@blackglory/prelude'
-export { INamespaceStats, IItemMetadata } from './contract.js'
+export { INamespaceStats, IItem, IItemMetadata } from './contract.js'
 
 export interface ICacheClientOptions {
   server: string
@@ -71,12 +71,7 @@ export class CacheClient {
     namespace: string
   , itemKey: string
   , timeout?: number
-  ): Promise<
-    {
-      value: JSONValue
-      metadata: IItemMetadata
-    } | null
-  > {
+  ): Promise<IItem | null> {
     return await this.withTimeout(
       () => this.client.getItem(namespace, itemKey)
     , timeout ?? this.timeout
