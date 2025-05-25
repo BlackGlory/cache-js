@@ -1,6 +1,6 @@
 import { JSONValue } from '@blackglory/prelude'
 
-export const expectedVersion = '^0.9.0'
+export const expectedVersion = '^0.9.0 || ^0.10.0'
 
 export interface INamespaceStats {
   items: number
