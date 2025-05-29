@@ -1,3 +1,4 @@
+import { describe, test, expect } from 'vitest'
 import { CacheClient } from '@src/cache-client.js'
 
 const server = 'ws://cache:8080'
