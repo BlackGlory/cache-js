@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.11.0](https://github.com/BlackGlory/cache-js/compare/v0.10.4...v0.11.0) (2025-05-29)
+
+
+### ⚠ BREAKING CHANGES
+
+* Replaced `timeout: number` with `signal: AbortSignal`
+* Node.js v16 => Node.js v22
+
+### Features
+
+* replace `timeout: number` with `signal: AbortSignal` ([fa383db](https://github.com/BlackGlory/cache-js/commit/fa383db8dc7a8dad7f1ec782a9379af5d26e286a))
+
+
+* upgrade dependencies ([6285cc9](https://github.com/BlackGlory/cache-js/commit/6285cc9f14e888fba538c9400ee0cc9cf8b64bd9))
+
 ### [0.10.4](https://github.com/BlackGlory/cache-js/compare/v0.10.3...v0.10.4) (2025-05-25)
 
 
