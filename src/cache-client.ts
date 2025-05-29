@@ -1,8 +1,8 @@
 import { createRPCClient } from '@utils/rpc-client.js'
 import { ClientProxy, BatchClient, BatchClientProxy } from 'delight-rpc'
 import { IAPI, INamespaceStats, IItem } from './contract.js'
-import { timeoutSignal, withAbortSignal } from 'extra-abort'
-import { JSONValue } from '@blackglory/prelude'
+import { raceAbortSignals, timeoutSignal, withAbortSignal } from 'extra-abort'
+import { isntUndefined, JSONValue } from '@blackglory/prelude'
 export { INamespaceStats, IItem, IItemMetadata } from './contract.js'
 
 export interface ICacheClientOptions {
@@ -34,74 +34,68 @@ export class CacheClient {
 
   async getNamespaceStats(
     namespace: string
-  , timeout?: number
+  , signal?: AbortSignal
   ): Promise<INamespaceStats> {
-    return await this.withTimeout(
-      () => this.client.getNamespaceStats(namespace)
-    , timeout ?? this.timeout
+    return await this.client.getNamespaceStats(
+      namespace
+    , this.withTimeout(signal)
     )
   }
 
-  async getAllNamespaces(timeout?: number): Promise<string[]> {
-    return await this.withTimeout(
-      () => this.client.getAllNamespaces()
-    , timeout ?? this.timeout
+  async getAllNamespaces(signal?: AbortSignal): Promise<string[]> {
+    return await this.client.getAllNamespaces(
+      this.withTimeout(signal)
     )
   }
 
-  async getAllItemKeys(namespace: string, timeout?: number): Promise<string[]> {
-    return await this.withTimeout(
-      () => this.client.getAllItemKeys(namespace)
-    , timeout ?? this.timeout
-    )
+  async getAllItemKeys(
+    namespace: string
+  , signal?: AbortSignal
+  ): Promise<string[]> {
+    return await this.client.getAllItemKeys(namespace, this.withTimeout(signal))
   }
 
   async hasItem(
     namespace: string
   , itemKey: string
-  , timeout?: number
+  , signal?: AbortSignal
   ): Promise<boolean> {
-    return await this.withTimeout(
-      () => this.client.hasItem(namespace, itemKey)
-    , timeout ?? this.timeout
-    )
+    return await this.client.hasItem(namespace, itemKey, this.withTimeout(signal))
   }
 
   async getItem(
     namespace: string
   , itemKey: string
-  , timeout?: number
+  , signal?: AbortSignal
   ): Promise<IItem | null> {
-    return await this.withTimeout(
-      () => this.client.getItem(namespace, itemKey)
-    , timeout ?? this.timeout
-    )
+    return await this.client.getItem(namespace, itemKey, this.withTimeout(signal))
   }
 
   async getItemValue(
     namespace: string
   , itemKey: string
-  , timeout?: number
+  , signal?: AbortSignal
   ): Promise<JSONValue | null> {
-    return await this.withTimeout(
-      () => this.client.getItemValue(namespace, itemKey)
-    , timeout ?? this.timeout
+    return await this.client.getItemValue(
+      namespace
+    , itemKey
+    , this.withTimeout(signal)
     )
   }
 
   async getItemValues(
     namespace: string
   , itemKeys: string[]
-  , timeout?: number
+  , signal?: AbortSignal
   ): Promise<Array<JSONValue | null>> {
-    return await this.withTimeout(
-      async () => {
+    return await withAbortSignal(
+      this.withTimeout(signal)
+    , async () => {
         const results = await this.batchClient.parallel(
           ...itemKeys.map(key => this.batchProxy.getItemValue(namespace, key))
         )
         return results.map(result => result.unwrap())
       }
-    , timeout ?? this.timeout
     )
   }
 
@@ -110,45 +104,36 @@ export class CacheClient {
   , itemKey: string
   , itemValue: JSONValue
   , timeToLive: number | null
-  , timeout?: number
+  , signal?: AbortSignal
   ): Promise<void> {
-    await this.withTimeout(
-      () => this.client.setItem(
-        namespace
-      , itemKey
-      , itemValue
-      , timeToLive
-      )
-    , timeout ?? this.timeout
+    await this.client.setItem(
+      namespace
+    , itemKey
+    , itemValue
+    , timeToLive
+    , this.withTimeout(signal)
     )
   }
 
   async removeItem(
     namespace: string
   , itemKey: string
-  , timeout?: number
+  , signal?: AbortSignal
   ): Promise<void> {
-    await this.withTimeout(
-      () => this.client.removeItem(namespace, itemKey)
-    , timeout ?? this.timeout
-    )
+    await this.client.removeItem(namespace, itemKey, this.withTimeout(signal))
   }
 
-  async clearItemsByNamespace(namespace: string, timeout?: number): Promise<void> {
-    await this.withTimeout(
-      () => this.client.clearItemsByNamespace(namespace)
-    , timeout ?? this.timeout
-    )
+  async clearItemsByNamespace(
+    namespace: string
+  , signal?: AbortSignal
+  ): Promise<void> {
+    await this.client.clearItemsByNamespace(namespace, this.withTimeout(signal))
   }
 
-  private async withTimeout<T>(
-    fn: () => PromiseLike<T>
-  , timeout: number | undefined = this.timeout
-  ): Promise<T> {
-    if (timeout) {
-      return await withAbortSignal(timeoutSignal(timeout), fn)
-    } else {
-      return await fn()
-    }
+  private withTimeout(signal?: AbortSignal): AbortSignal {
+    return raceAbortSignals([
+      isntUndefined(this.timeout) && timeoutSignal(this.timeout)
+    , signal
+    ])
   }
 }

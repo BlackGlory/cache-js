@@ -34,30 +34,37 @@ class CacheClient {
 
   close(): Promise<void>
 
-  getNamespaceStats(namespace: string, timeout?: number): Promise<INamespaceStats>
+  getNamespaceStats(
+    namespace: string
+  , signal?: AbortSignal
+  ): Promise<INamespaceStats>
 
-  getAllNamespaces(timeout?: number): Promise<string[]>
+  getAllNamespaces(signal?: AbortSignal): Promise<string[]>
 
-  getAllItemKeys(namespace: string, timeout?: number): Promise<string[]>
+  getAllItemKeys(namespace: string, signal?: AbortSignal): Promise<string[]>
 
-  hasItem(namespace: string, itemKey: string, timeout?: number): Promise<boolean>
+  hasItem(
+    namespace: string
+  , itemKey: string
+  , signal?: AbortSignal
+  ): Promise<boolean>
 
   getItem(
     namespace: string
   , itemKey: string
-  , timeout?: number
+  , signal?: AbortSignal
   ): Promise<IItem | null>
 
   getItemValue(
     namespace: string
   , itemKey: string
-  , timeout?: number
+  , signal?: AbortSignal
   ): Promise<JSONValue | null>
 
   getItemValues(
     namespace: string
   , itemKeys: string[]
-  , timeout?: number
+  , signal?: AbortSignal
   ): Promise<Array<JSONValue | null>>
 
   setItem(
@@ -65,11 +72,15 @@ class CacheClient {
   , itemKey: string
   , itemValue: JSONValue
   , timeToLive: number | null
-  , timeout?: number
+  , signal?: AbortSignal
   ): Promise<void>
 
-  removeItem(namespace: string, itemKey: string, timeout?: number): Promise<void>
+  removeItem(
+    namespace: string
+  , itemKey: string
+  , signal?: AbortSignal
+  ): Promise<void>
 
-  clearItemsByNamespace(namespace: string, timeout?: number): Promise<void>
+  clearItemsByNamespace(namespace: string, signal?: AbortSignal): Promise<void>
 }
 ```
