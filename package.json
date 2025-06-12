@@ -45,8 +45,6 @@
     "@commitlint/config-conventional": "^19.8.1",
     "@eslint/js": "^9.27.0",
     "@types/ws": "^8.18.1",
-    "@typescript-eslint/eslint-plugin": "^8.33.0",
-    "@typescript-eslint/parser": "^8.33.0",
     "cross-env": "^7.0.3",
     "eslint": "^9.27.0",
     "husky": "4",
