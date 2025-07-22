@@ -7,7 +7,7 @@ import { timeoutSignal } from 'extra-abort'
 export async function createRPCClient(
   url: string
 , retryIntervalForReconnection?: number
-, timeout?: number
+, timeoutForConnection?: number
 ): Promise<{
   client: ClientProxy<IAPI>
   batchClient: BatchClient<IAPI>
@@ -18,11 +18,11 @@ export async function createRPCClient(
   const cancelAutoReconnect = autoReconnect(
     ws
   , retryIntervalForReconnection
-  , timeout
+  , timeoutForConnection
   )
   await ws.connect(
-    timeout
-  ? timeoutSignal(timeout)
+    timeoutForConnection
+  ? timeoutSignal(timeoutForConnection)
   : undefined
   )
 
