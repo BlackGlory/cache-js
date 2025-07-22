@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.11.1](https://github.com/BlackGlory/cache-js/compare/v0.11.0...v0.11.1) (2025-07-22)
+
+
+### Features
+
+* make the timeout apply to connect and reconnect ([7a7a05a](https://github.com/BlackGlory/cache-js/commit/7a7a05aca5d701b30972aa355332e4609a09459d))
+
 ## [0.11.0](https://github.com/BlackGlory/cache-js/compare/v0.10.4...v0.11.0) (2025-05-29)
 
 
