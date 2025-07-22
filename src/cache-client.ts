@@ -16,6 +16,7 @@ export class CacheClient {
     const { client, batchClient, proxy, close } = await createRPCClient(
       options.server
     , options.retryIntervalForReconnection
+    , options.timeout
     )
     return new CacheClient(client, batchClient, proxy, close, options.timeout)
   }

@@ -2,11 +2,13 @@ import { IAPI, expectedVersion } from '@src/contract.js'
 import { ClientProxy, BatchClient, BatchClientProxy, createBatchProxy } from 'delight-rpc'
 import { createClient, createBatchClient } from '@delight-rpc/extra-websocket'
 import { WebSocket } from 'ws'
+import { timeoutSignal } from 'extra-abort'
 import { ExtraWebSocket, autoReconnect } from 'extra-websocket'
 
 export async function createRPCClient(
   url: string
 , retryIntervalForReconnection?: number
+, timeout?: number
 ): Promise<{
   client: ClientProxy<IAPI>
   batchClient: BatchClient<IAPI>
@@ -14,8 +16,16 @@ export async function createRPCClient(
   close: () => Promise<void>
 }> {
   const ws = new ExtraWebSocket(() => new WebSocket(url))
-  const cancelAutoReconnect = autoReconnect(ws, retryIntervalForReconnection)
-  await ws.connect()
+  const cancelAutoReconnect = autoReconnect(
+    ws
+  , retryIntervalForReconnection
+  , timeout
+  )
+  await ws.connect(
+    timeout
+  ? timeoutSignal(timeout)
+  : undefined
+  )
 
   const [client, closeClient] = createClient<IAPI>(ws, { expectedVersion })
   const [batchClient, closeBatchClient] = createBatchClient(ws, { expectedVersion })
