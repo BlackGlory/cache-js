@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.11.3](https://github.com/BlackGlory/cache-js/compare/v0.11.2...v0.11.3) (2026-05-24)
+
+
+### Features
+
+* add support for `ICacheClientRequestOptions` ([766fc98](https://github.com/BlackGlory/cache-js/commit/766fc9856a076dab816a3a3fd2a87e0c23b57abd))
+
 ### [0.11.2](https://github.com/BlackGlory/cache-js/compare/v0.11.1...v0.11.2) (2025-07-22)
 
 ### [0.11.1](https://github.com/BlackGlory/cache-js/compare/v0.11.0...v0.11.1) (2025-07-22)
