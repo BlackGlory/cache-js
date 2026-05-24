@@ -15,6 +15,11 @@ interface ICacheClientOptions {
   retryIntervalForReconnection?: number
 }
 
+interface ICacheClientRequestOptions {
+  signal?: AbortSignal
+  timeout?: number | false
+}
+
 interface INamespaceStats {
   items: number
 }
@@ -36,35 +41,40 @@ class CacheClient {
 
   getNamespaceStats(
     namespace: string
-  , signal?: AbortSignal
+  , signalOrOptions?: AbortSignal | ICacheClientRequestOptions
   ): Promise<INamespaceStats>
 
-  getAllNamespaces(signal?: AbortSignal): Promise<string[]>
+  getAllNamespaces(
+    signalOrOptions?: AbortSignal | ICacheClientRequestOptions
+  ): Promise<string[]>
 
-  getAllItemKeys(namespace: string, signal?: AbortSignal): Promise<string[]>
+  getAllItemKeys(
+    namespace: string
+  , signalOrOptions?: AbortSignal | ICacheClientRequestOptions
+  ): Promise<string[]>
 
   hasItem(
     namespace: string
   , itemKey: string
-  , signal?: AbortSignal
+  , signalOrOptions?: AbortSignal | ICacheClientRequestOptions
   ): Promise<boolean>
 
   getItem(
     namespace: string
   , itemKey: string
-  , signal?: AbortSignal
+  , signalOrOptions?: AbortSignal | ICacheClientRequestOptions
   ): Promise<IItem | null>
 
   getItemValue(
     namespace: string
   , itemKey: string
-  , signal?: AbortSignal
+  , signalOrOptions?: AbortSignal | ICacheClientRequestOptions
   ): Promise<JSONValue | null>
 
   getItemValues(
     namespace: string
   , itemKeys: string[]
-  , signal?: AbortSignal
+  , signalOrOptions?: AbortSignal | ICacheClientRequestOptions
   ): Promise<Array<JSONValue | null>>
 
   setItem(
@@ -72,15 +82,18 @@ class CacheClient {
   , itemKey: string
   , itemValue: JSONValue
   , timeToLive: number | null
-  , signal?: AbortSignal
+  , signalOrOptions?: AbortSignal | ICacheClientRequestOptions
   ): Promise<void>
 
   removeItem(
     namespace: string
   , itemKey: string
-  , signal?: AbortSignal
+  , signalOrOptions?: AbortSignal | ICacheClientRequestOptions
   ): Promise<void>
 
-  clearItemsByNamespace(namespace: string, signal?: AbortSignal): Promise<void>
+  clearItemsByNamespace(
+    namespace: string
+  , signalOrOptions?: AbortSignal | ICacheClientRequestOptions
+  ): Promise<void>
 }
 ```
