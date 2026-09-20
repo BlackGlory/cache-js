@@ -1,12 +1,17 @@
 import { createRPCClient } from '@utils/rpc-client.js'
 import { ClientProxy, BatchClient, BatchClientProxy } from 'delight-rpc'
-import { IAPI, INamespaceStats, IItem } from './contract.js'
+import { IAPI, INamespaceStats, IItem, expectedVersion } from './contract.js'
 import { raceAbortSignals, timeoutSignal, withAbortSignal, isAbortSignal } from 'extra-abort'
 import { JSONValue } from '@blackglory/prelude'
 export { INamespaceStats, IItem, IItemMetadata } from './contract.js'
 
 export interface ICacheClientOptions {
   server: string
+
+  basicAuth?: {
+    username: string
+    password: string
+  }
   timeout?: number
   retryIntervalForReconnection?: number
 }
@@ -18,12 +23,21 @@ export interface ICacheClientRequestOptions {
 
 export class CacheClient {
   static async create(options: ICacheClientOptions): Promise<CacheClient> {
-    const { client, batchClient, proxy, close } = await createRPCClient(
-      options.server
-    , options.retryIntervalForReconnection
+    const { client, batchClient, proxy, close } = await createRPCClient<IAPI>({
+      url: options.server
+    , basicAuth: options.basicAuth
+    , retryIntervalForReconnection: options.retryIntervalForReconnection
+    , timeoutForConnection: options.timeout
+    , expectedVersion
+    })
+
+    return new CacheClient(
+      client
+    , batchClient
+    , proxy
+    , close
     , options.timeout
     )
-    return new CacheClient(client, batchClient, proxy, close, options.timeout)
   }
 
   private constructor(

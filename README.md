@@ -11,6 +11,11 @@ yarn add @blackglory/cache-js
 ```ts
 interface ICacheClientOptions {
   server: string
+
+  basicAuth?: {
+    username: string
+    password: string
+  }
   timeout?: number
   retryIntervalForReconnection?: number
 }
