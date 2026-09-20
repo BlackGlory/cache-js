@@ -46,7 +46,6 @@ export async function createRPCClient<IAPI extends object>(options: {
   })
   const proxy = createBatchProxy<IAPI>()
 
-
   return {
     client
   , batchClient
